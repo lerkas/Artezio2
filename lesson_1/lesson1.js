@@ -41,5 +41,18 @@ console.log(sumMatrix(matrix2)); // 136
 Задание 3
 Напишите ф-ю, принимающую в качестве аргумента текстовую строку,
 и возвращающую кол-во уникальных символов в строке
+Входные данные - строка, выходные данные - число 
 */
+
+function filterUnique(str) {
+	let set = new Set(str);
+	return [...set].length;
+}
+
+let testString = 'Hello, world';
+
+let testString2 = 'Test String 2';
+
+console.log(filterUnique(testString));  // 9
+console.log(filterUnique(testString2)); // 11
 
