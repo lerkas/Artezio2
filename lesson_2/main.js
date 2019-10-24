@@ -43,4 +43,9 @@ function completeItem(item) {
     let completeItem = document.createElement('li');
     completeItem.innerHTML = item;
     completeList.appendChild(item);
+
+    let btn = completeList.getElementsByClassName('item-btn-del');
+    for(let i = btn.length - 1; i >= 0; i--) {
+        btn[i].remove();
+    }
 }
