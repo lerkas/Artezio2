@@ -4,7 +4,7 @@ let list = document.getElementById("todo-list");
 
 buttonCreate.addEventListener('click', function(){
   let value = inputCreate.value;
-  if(value){
+  if(/\S/.test(value)){   // Задание 1. Проверка на строку из одних пробелов
     addItemToDom(value);
     inputCreate.value = '';
   }
