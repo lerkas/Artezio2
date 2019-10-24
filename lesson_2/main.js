@@ -1,16 +1,17 @@
 let inputCreate = document.getElementById("input-create");
 let buttonCreate = document.getElementById("btn-create");
 let list = document.getElementById("todo-list");
+let completeList = document.getElementById("complete-list");
 
-buttonCreate.addEventListener('click', function(){
-  let value = inputCreate.value;
-  if(/\S/.test(value)){   // Задание 1. Проверка на строку из одних пробелов
-    addItemToDom(value);
-    inputCreate.value = '';
-  }
+buttonCreate.addEventListener('click', function() {
+    let value = inputCreate.value;
+    if (/\S/.test(value)) { // Задание 1. Проверка на строку из одних пробелов
+        addItemToDom(value);
+        inputCreate.value = '';
+    }
 })
 
-function addItemToDom(value){
+function addItemToDom(value) {
     let itemView = `
       <div class="item">
         <span class="item-text">${value}</span>
@@ -29,10 +30,17 @@ function addItemToDom(value){
     buttonDelete.addEventListener('click', removeItem);
 
     list.appendChild(item);
-
 }
 
-function removeItem(event){
-  let item = event.target.parentNode.parentNode.parentNode;
-  list.removeChild(item);
+function removeItem(event) {
+    let item = event.target.parentNode.parentNode.parentNode;
+    list.removeChild(item);
+    completeItem(item);
+}
+
+// Задание 2. Перенос элемента в новый список при удалении
+function completeItem(item) {
+    let completeItem = document.createElement('li');
+    completeItem.innerHTML = item;
+    completeList.appendChild(item);
 }
