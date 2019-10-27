@@ -2,6 +2,7 @@ let inputCreate = document.getElementById("input-create");
 let buttonCreate = document.getElementById("btn-create");
 let list = document.getElementById("todo-list");
 let completeList = document.getElementById("complete-list");
+let firstItemDelete = false;
 
 buttonCreate.addEventListener('click', function() {
     let value = inputCreate.value;
@@ -40,12 +41,20 @@ function removeItem(event) {
 
 // Задание 2. Перенос элемента в новый список при удалении
 function completeItem(item) {
+    if (!firstItemDelete) {
+        completeList.insertAdjacentHTML('beforebegin',
+            `<div class="input-field">
+                <input id="input-create" type="text" placeholder="Введите текст для поиска">
+            </div>`);
+        firstItemDelete = true;
+    }
+
     let completeItem = document.createElement('li');
     completeItem.innerHTML = item;
     completeList.appendChild(item);
 
     let btn = completeList.getElementsByClassName('item-btn-del');
-    for(let i = btn.length - 1; i >= 0; i--) {
+    for (let i = btn.length - 1; i >= 0; i--) {
         btn[i].remove();
     }
 }

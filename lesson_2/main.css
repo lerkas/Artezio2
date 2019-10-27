@@ -31,3 +31,7 @@
   font-size: 18px;
   margin: 15px 0 0;
 }
+
+input[type='text']::placeholder { 
+  color: #4b4e4f; 
+}
