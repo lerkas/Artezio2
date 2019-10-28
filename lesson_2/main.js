@@ -44,10 +44,13 @@ function completeItem(item) {
     if (!firstItemDelete) {
         completeList.insertAdjacentHTML('beforebegin',
             `<div class="input-field">
-                <input id="input-search" type="text" onkeyup="searchItem()" placeholder="Введите текст для поиска">
+                <input id="input-search" type="text" placeholder="Введите текст для поиска">
             </div>`);
         firstItemDelete = true;
     }
+
+    let input = document.getElementById('input-search');
+    input.addEventListener('keyup', searchItem);
 
     completeList.appendChild(item);
 
@@ -60,14 +63,12 @@ function completeItem(item) {
 // Задание 3. Фильтрация и поиск среди выполненных задач
 function searchItem() {
     let input = document.getElementById('input-search');
-    let filter = input.value.toUpperCase();
-    let itemValue, span;
+    let filter = input.value.toLowerCase();
     let li = completeList.getElementsByTagName('li');
     for (let i = 0; i < li.length; i++) {
-        span = li[i].getElementsByTagName('span')[0];
+        let span = li[i].getElementsByTagName('span')[0];
         if (span) {
-            itemValue = span.textContent;
-            if (itemValue.toUpperCase().indexOf(filter) > -1) {
+            if (span.textContent.toLowerCase().indexOf(filter) > -1) {
                 li[i].style.display = '';
             } else {
                 li[i].style.display = 'none';
