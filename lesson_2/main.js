@@ -44,17 +44,34 @@ function completeItem(item) {
     if (!firstItemDelete) {
         completeList.insertAdjacentHTML('beforebegin',
             `<div class="input-field">
-                <input id="input-create" type="text" placeholder="Введите текст для поиска">
+                <input id="input-search" type="text" onkeyup="searchItem()" placeholder="Введите текст для поиска">
             </div>`);
         firstItemDelete = true;
     }
 
-    let completeItem = document.createElement('li');
-    completeItem.innerHTML = item;
     completeList.appendChild(item);
 
     let btn = completeList.getElementsByClassName('item-btn-del');
     for (let i = btn.length - 1; i >= 0; i--) {
         btn[i].remove();
+    }
+}
+
+// Задание 3. Фильтрация и поиск среди выполненных задач
+function searchItem() {
+    let input = document.getElementById('input-search');
+    let filter = input.value.toUpperCase();
+    let itemValue, span;
+    let li = completeList.getElementsByTagName('li');
+    for (let i = 0; i < li.length; i++) {
+        span = li[i].getElementsByTagName('span')[0];
+        if (span) {
+            itemValue = span.textContent;
+            if (itemValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = '';
+            } else {
+                li[i].style.display = 'none';
+            }
+        }
     }
 }
