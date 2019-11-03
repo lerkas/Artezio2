@@ -1,16 +1,18 @@
 'use strict';
 
 (function() {
-    let clear = document.getElementById('clear');
     let display = document.getElementById('display');
-    let equals = document.getElementById('equals');
     let currentNum = '';
     let firstNum = '';
     let result;
     let operator;
 
+    // Класс выбора кнопки клика
     class Choose {
         constructor(selector) {
+            if (selector.charAt(0) === '#') {
+                this.elems = document.querySelector(selector);
+            }
             this.elems = document.querySelectorAll(selector);
         }
         on(event, callback) {
@@ -39,7 +41,7 @@
     });
 
     // Клик по кнопке "равно"
-    equals.addEventListener('click', function() {
+    (new Choose('#equals')).on('click', function() {
         firstNum = parseFloat(firstNum);
         currentNum = parseFloat(currentNum);
         switch (operator) {
@@ -67,7 +69,8 @@
         currentNum = result;
     });
 
-    clear.addEventListener('click', function() {
+    // Клик по кнопке "C"
+    (new Choose('#clear')).on('click', function() {
         firstNum = '';
         currentNum = '';
         display.innerHTML = '0';
