@@ -34,7 +34,7 @@
     }
 
     // Клик по кнопке "равно"
-    equals.onclick = function calculate() {
+    equals.addEventListener('click', function() {
         firstNum = parseFloat(firstNum);
         currentNum = parseFloat(currentNum);
         switch (operator) {
@@ -60,11 +60,11 @@
         display.innerHTML = result;
         firstNum = '';
         currentNum = result;
-    }
+    });
 
-    clear.onclick = function clearAll() {
+    clear.addEventListener('click', function() {
         firstNum = '';
         currentNum = '';
         display.innerHTML = '0';
-    }
+    });
 }());
