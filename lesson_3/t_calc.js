@@ -11,30 +11,26 @@
     let result;
     let operator;
 
-    for (let i = 0; i < numbers.length; i++) {
-        numbers[i].onclick = chooseNum;
-    }
-
-    for (let i = 0; i < operators.length; i++) {
-        operators[i].onclick = chooseOp;
-    }
-
     // Клик по любому операнду (цифре)
-    function chooseNum() {
-        if (result) {
-            currentNum = this.innerHTML;
-            result = '';
-        } else {
-            currentNum += this.innerHTML;
-        }
-        display.innerHTML = currentNum;
+    for (let i = 0; i < numbers.length; i++) {
+        numbers[i].addEventListener('click', function() {
+            if (result) {
+                currentNum = this.innerHTML;
+                result = '';
+            } else {
+                currentNum += this.innerHTML;
+            }
+            display.innerHTML = currentNum;
+        });
     }
 
     // Клик по любому оператору
-    function chooseOp() {
-        firstNum = currentNum;
-        currentNum = '';
-        operator = this.innerHTML;
+    for (let i = 0; i < operators.length; i++) {
+        operators[i].addEventListener('click', function() {
+            firstNum = currentNum;
+            currentNum = '';
+            operator = this.innerHTML;
+        });
     }
 
     // Клик по кнопке "равно"
