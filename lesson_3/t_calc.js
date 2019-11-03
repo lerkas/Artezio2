@@ -4,34 +4,39 @@
     let clear = document.getElementById('clear');
     let display = document.getElementById('display');
     let equals = document.getElementById('equals');
-    let numbers = document.querySelectorAll('.number');
-    let operators = document.querySelectorAll('.operator');
     let currentNum = '';
     let firstNum = '';
     let result;
     let operator;
 
-    // Клик по любому операнду (цифре)
-    for (let i = 0; i < numbers.length; i++) {
-        numbers[i].addEventListener('click', function() {
-            if (result) {
-                currentNum = this.innerHTML;
-                result = '';
-            } else {
-                currentNum += this.innerHTML;
+    class Choose {
+        constructor(selector) {
+            this.elems = document.querySelectorAll(selector);
+        }
+        on(event, callback) {
+            for (let i = 0; i < this.elems.length; i++) {
+                this.elems[i].addEventListener(event, callback);
             }
-            display.innerHTML = currentNum;
-        });
+        }
     }
 
+    // Клик по любому операнду (цифре)
+    (new Choose('.number')).on('click', function() {
+        if (result) {
+            currentNum = this.innerHTML;
+            result = '';
+        } else {
+            currentNum += this.innerHTML;
+        }
+        display.innerHTML = currentNum;
+    });
+
     // Клик по любому оператору
-    for (let i = 0; i < operators.length; i++) {
-        operators[i].addEventListener('click', function() {
-            firstNum = currentNum;
-            currentNum = '';
-            operator = this.innerHTML;
-        });
-    }
+    (new Choose('.operator')).on('click', function() {
+        firstNum = currentNum;
+        currentNum = '';
+        operator = this.innerHTML;
+    });
 
     // Клик по кнопке "равно"
     equals.addEventListener('click', function() {
