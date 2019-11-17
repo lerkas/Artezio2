@@ -16,35 +16,55 @@
     }
     const method = 'POST';
 
-    // GET и POST - запрос(ы) с обработкой ошибок
-    async function requestData(url, method, data) {
-        try {
-            let response;
-            if (method == 'POST') {
-                response = await fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-            } else {
-                response = await fetch(url);
+    // Синглтон класс
+    class Request {
+        constructor(url, method, data) {
+            if (typeof Request.instance === 'object') {
+                return Request.instance;
             }
 
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                throw new TypeError('Ошибка: JSON не получен');
-            }
-            const json = await response.json();
-            console.log('Успех:', JSON.stringify(json)); // Данные в виде строки
-            console.log('Успех:', json); // Данные в виде объекта
-        } catch (error) {
-            console.log('Ошибка:', error);
+            this.url = url;
+            this.method = method;
+            this.data = data;
+
+            Request.instance = this;
+            return this;
         }
-    }
 
-    requestData(url, method, data);
-    requestData(url);
+        async requestData() {
+            try {
+                let response;
+                if (this.method == 'POST') {
+                    response = await fetch(this.url, {
+                        method: 'POST',
+                        body: JSON.stringify(this.data),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                } else {
+                    response = await fetch(this.url);
+                }
 
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new TypeError('Ошибка: JSON не получен');
+                }
+                const json = await response.json();
+                console.log('Успех:', JSON.stringify(json)); // Данные в виде строки
+                console.log('Успех:', json);                // Данные в виде объекта
+            } catch (error) {
+                console.log('Ошибка:', error);
+            }
+        }
+
+    };
+
+    const myReq1 = new Request(url); // GET
+    const myReq2 = new Request(url, method, data); // POST
+
+    myReq1.requestData();
+    myReq2.requestData();
+
+    console.log(myReq1 === myReq2); // true => что одначает ссылку на один и тот же объект
 }());
