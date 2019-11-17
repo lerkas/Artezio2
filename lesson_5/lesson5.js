@@ -14,11 +14,24 @@
         'name': 'morpheus',
         'job': 'leader'
     }
+    const method = 'POST';
 
-    // GET - запрос с обработкой ошибок
-    async function getData(url) {
+    // GET и POST - запрос(ы) с обработкой ошибок
+    async function requestData(url, method, data) {
         try {
-            const response = await fetch(url);
+            let response;
+            if (method == 'POST') {
+                response = await fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } else {
+                response = await fetch(url);
+            }
+
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 throw new TypeError('Ошибка: JSON не получен');
@@ -31,29 +44,7 @@
         }
     }
 
-    // POST - запрос c обработкой ошибок
-    async function postData(url, data) {
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                throw new TypeError('Ошибка: JSON не получен');
-            }
-            const json = await response.json();
-            console.log('Успех:', JSON.stringify(json));
-            console.log('Успех:', json);
-        } catch (error) {
-            console.log('Ошибка:', error);
-        }
-    }
-
-    getData(url);
-    postData(url, data);
+    requestData(url, method, data);
+    requestData(url);
 
 }());
