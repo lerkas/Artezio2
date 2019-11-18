@@ -52,7 +52,7 @@
                 }
                 const json = await response.json();
                 console.log('Успех:', JSON.stringify(json)); // Данные в виде строки
-                console.log('Успех:', json);                // Данные в виде объекта
+                console.log('Успех:', json); // Данные в виде объекта
             } catch (error) {
                 console.log('Ошибка:', error);
             }
@@ -60,8 +60,24 @@
 
     };
 
+    // Декоратор
+    function logDecorator(wrapped) {
+        return function() {
+            console.group('Start log');
+            const logResult = wrapped.apply(this, arguments);
+            console.log(`Вызов функции ${wrapped.name}`);
+            console.log(`Получение ${logResult}`);
+            console.groupEnd();
+            console.log('Finish log');
+            return logResult;
+        }
+    }
+
     const myReq1 = new Request(url); // GET
     const myReq2 = new Request(url, method, data); // POST
+
+    myReq1.requestData = logDecorator(myReq1.requestData);
+    myReq2.requestData = logDecorator(myReq2.requestData);
 
     myReq1.requestData();
     myReq2.requestData();
